@@ -1,0 +1,63 @@
+version: "3.5"
+services:
+  php:
+    build:
+      context: ${PROJECT_ROOT}
+      dockerfile: .docker/php/Dockerfile
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    networks:
+      - backend
+    depends_on:
+      - mariadb
+    volumes:
+      - ../src:/var/www/html:cached
+    container_name: ${COMPOSE_PROJECT_NAME}_php
+  apache:
+    build:
+      context: ${PROJECT_ROOT}
+      dockerfile: .docker/apache/Dockerfile
+      args:
+        APACHE_VERSION: ${APACHE_VERSION}
+    depends_on:
+      - php
+      - mariadb
+    networks:
+      - backend
+    ports:
+      - "${APACHE_PORT}:80"
+      - "${APACHE_SSL_PORT}:443"
+    extra_hosts:
+      - "${COMPOSE_PROJECT_LOCAL_DOMAIN}:127.0.0.1"
+    volumes:
+      - ../src:/var/www/html/
+    container_name: ${COMPOSE_PROJECT_NAME}_apache
+  mariadb:
+    image: mariadb:${MARIADB_VERSION}
+    command: --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    restart: always
+    volumes:
+      - ./mysql/dbdata:/var/lib/mysql
+    networks:
+      - backend
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PW}
+      - MYSQL_DATABASE=${MYSQL_DB}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PW}
+    ports:
+      - "3306:3306"
+    container_name: ${COMPOSE_PROJECT_NAME}_mariadb
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "${ADMINER_PORT}:8080"
+    networks:
+      - backend
+    environment:
+      - ADMINER_DEFAULT_SERVER=mariadb
+    container_name: ${COMPOSE_PROJECT_NAME}_adminer
+networks:
+  backend:
+    name: backend
