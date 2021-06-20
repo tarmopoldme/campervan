@@ -21,9 +21,9 @@ class OrderGenerator
 
     public function generate(): void
     {
-        $dates = $this->getStartAndEndDate();
-        // grab two random stations for start and end stations
-        $stations = $this->em->getRepository(Station::class)
+        $dates = $this->getRandomStartAndEndDate();
+        $stations = $this->em
+            ->getRepository(Station::class)
             ->getRandomStations(2)
         ;
 
@@ -35,26 +35,26 @@ class OrderGenerator
             ->setStartDate($dates['start_date'])
             ->setEndDate($dates['end_date'])
         ;
+
+        (new OrderEquipmentGenerator($order, $this->em))->generate();
+
         $this->em->persist($order);
         $this->em->flush();
+
+        (new EquipmentDemandDetector($order, $this->em))->detect();
     }
 
-    private function getStartAndEndDate(): array
+    private function getRandomStartAndEndDate(): array
     {
         $randomStart = random_int(1, 30);
         $randomEnd = random_int(1, 7);
 
-        $start = (new DateTime())->modify("+$randomStart day");
-        $end = (clone $start)->modify("+$randomEnd day");
+        $startDate = (new DateTime())->modify("+$randomStart day");
+        $endDate = (clone $startDate)->modify("+$randomEnd day");
 
         return [
-            'start_date' => $start,
-            'end_date' => $end
+            'start_date' => $startDate,
+            'end_date' => $endDate
         ];
     }
-
-//    private function getRandomEquipment()
-//    {
-//
-//    }
 }

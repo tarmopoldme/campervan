@@ -4,17 +4,17 @@ namespace App\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class StationRepository extends EntityRepository
+class EquipmentRepository extends EntityRepository
 {
 
     /**
      * @param int $limit
      * @return int|mixed|string
      */
-    public function getRandomStations(int $limit = 2)
+    public function getRandomEquipment(int $limit = 5)
     {
         return $this
-            ->createQueryBuilder('s')
+            ->createQueryBuilder('e')
             ->orderBy('RAND()')
             ->setMaxResults($limit)
             ->getQuery()

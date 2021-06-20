@@ -76,7 +76,57 @@ INSERT INTO `cv_campervan` (`id`) VALUES
 (46),
 (47),
 (48),
-(50);
+(50),
+(51),
+(52),
+(53),
+(54),
+(55),
+(56),
+(57),
+(58),
+(59),
+(60),
+(61),
+(62),
+(63),
+(64),
+(65),
+(66),
+(67),
+(68),
+(69),
+(70),
+(71),
+(72),
+(73),
+(74),
+(75),
+(76),
+(77),
+(78),
+(79),
+(80),
+(81),
+(82),
+(83),
+(84),
+(85),
+(86),
+(87),
+(88),
+(89),
+(90),
+(91),
+(92),
+(93),
+(94),
+(95),
+(96),
+(97),
+(98),
+(99),
+(100);
 
 DROP TABLE IF EXISTS `cv_equipment`;
 CREATE TABLE `cv_equipment` (
@@ -140,8 +190,8 @@ INSERT INTO `cv_station` (`id`, `name`) VALUES
 (4,	'Madrid'),
 (5,	'Sindi');
 
-DROP TABLE IF EXISTS `cv_station_equipment`;
-CREATE TABLE `cv_station_equipment` (
+DROP TABLE IF EXISTS `cv_station_equipment_demand`;
+CREATE TABLE `cv_station_equipment_demand` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `station_id` int(10) unsigned NOT NULL,
   `equipment_id` int(10) unsigned NOT NULL,
@@ -151,8 +201,8 @@ CREATE TABLE `cv_station_equipment` (
   PRIMARY KEY (`id`),
   KEY `station_id` (`station_id`),
   KEY `equipment_id` (`equipment_id`),
-  CONSTRAINT `cv_station_equipment_ibfk_1` FOREIGN KEY (`station_id`) REFERENCES `cv_station` (`id`),
-  CONSTRAINT `cv_station_equipment_ibfk_2` FOREIGN KEY (`equipment_id`) REFERENCES `cv_equipment` (`id`)
+  CONSTRAINT `cv_station_equipment_demand_ibfk_1` FOREIGN KEY (`station_id`) REFERENCES `cv_station` (`id`),
+  CONSTRAINT `cv_station_equipment_demand_ibfk_2` FOREIGN KEY (`equipment_id`) REFERENCES `cv_equipment` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 SET foreign_key_checks = 1;
 SQL
@@ -168,7 +218,7 @@ DROP TABLE IF EXISTS `cv_equipment`;
 DROP TABLE IF EXISTS `cv_order`;
 DROP TABLE IF EXISTS `cv_order_equipment`;
 DROP TABLE IF EXISTS `cv_station`;
-DROP TABLE IF EXISTS `cv_station_equipment`;
+DROP TABLE IF EXISTS `cv_station_equipment_demand`;
 SET foreign_key_checks = 1;
 SQL
         );

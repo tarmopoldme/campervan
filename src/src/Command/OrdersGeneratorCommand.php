@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class AirviroImportCommand
+ * Class OrdersGeneratorCommand
  */
 class OrdersGeneratorCommand extends Command
 {
@@ -29,20 +29,15 @@ class OrdersGeneratorCommand extends Command
     {
         $this
             ->setName('campervan:orders-generator')
-            ->setDescription('Generates random orders for testing purposes')
+            ->setDescription('Generates random orders for all campervans for testing purposes')
             ->addUsage('-vvv (for full exception stacks)');
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $output->writeln("Starting orders generating...");
+        $output->writeln('Starting orders generating...');
 
-        $this->truncateOrderTables();
+        $this->truncateTables();
 
         $campervans = $this->em->getRepository(Campervan::class)
             ->findAll()
@@ -50,15 +45,16 @@ class OrdersGeneratorCommand extends Command
 
         /** @var Campervan $campervan */
         foreach ($campervans as $campervan) {
+            $output->writeln(sprintf('Generating order for campervan %d', $campervan->getId()));
             (new OrderGenerator($campervan, $this->em))->generate();
         }
 
-        $output->writeln("Finished orders generating");
+        $output->writeln('Finished orders generating');
 
         return Command::SUCCESS;
     }
 
-    private function truncateOrderTables(): void
+    private function truncateTables(): void
     {
         $platform = $this->con->getDatabasePlatform();
         if (!$platform) {
@@ -67,6 +63,7 @@ class OrdersGeneratorCommand extends Command
         $this->con->executeStatement('SET foreign_key_checks = 0;');
         $this->con->executeStatement($platform->getTruncateTableSQL('cv_order_equipment', true));
         $this->con->executeStatement($platform->getTruncateTableSQL('cv_order', true));
+        $this->con->executeStatement($platform->getTruncateTableSQL('cv_station_equipment_demand', true));
         $this->con->executeStatement('SET foreign_key_checks = 1;');
     }
 }

@@ -2,15 +2,16 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * CvStationEquipment
  *
- * @ORM\Table(name="cv_station_equipment", indexes={@ORM\Index(name="equipment_id", columns={"equipment_id"}), @ORM\Index(name="station_id", columns={"station_id"})})
- * @ORM\Entity
+ * @ORM\Table(name="cv_station_equipment_demand", indexes={@ORM\Index(name="equipment_id", columns={"equipment_id"}), @ORM\Index(name="station_id", columns={"station_id"})})
+ * @ORM\Entity(repositoryClass="App\Repository\StationEquipmentDemandRepository")
  */
-class StationEquipment
+class StationEquipmentDemand
 {
     /**
      * @var int
@@ -67,12 +68,12 @@ class StationEquipment
         return $this->id;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 

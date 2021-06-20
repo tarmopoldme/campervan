@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use DateTime;
+use DateTimeInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -66,29 +68,36 @@ class Order
      */
     private $endStation;
 
+    /**
+     * @var Collection
+     *
+     * @ORM\OneToMany(targetEntity="OrderEquipment", mappedBy="order", cascade={"persist", "remove"})
+     */
+    private $orderEquipments;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStartDate(): ?\DateTimeInterface
+    public function getStartDate(): ?DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setStartDate(\DateTimeInterface $startDate): self
+    public function setStartDate(DateTimeInterface $startDate): self
     {
         $this->startDate = $startDate;
 
         return $this;
     }
 
-    public function getEndDate(): ?\DateTimeInterface
+    public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
 
-    public function setEndDate(\DateTimeInterface $endDate): self
+    public function setEndDate(DateTimeInterface $endDate): self
     {
         $this->endDate = $endDate;
 
@@ -131,5 +140,20 @@ class Order
         return $this;
     }
 
+    public function getOrderEquipments(): ?Collection
+    {
+        return $this->orderEquipments;
+    }
+
+    public function setOrderEquipments(Collection $orderEquipments): self
+    {
+        /** @var OrderEquipment $orderEquipment */
+        foreach ($orderEquipments as $orderEquipment) {
+            $orderEquipment->setOrder($this);
+        }
+        $this->orderEquipments = $orderEquipments;
+
+        return $this;
+    }
 
 }
