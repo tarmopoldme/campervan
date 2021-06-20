@@ -20,21 +20,26 @@ php bin/console campervan:orders-generate -vvv
 
 * Orders generator will place one order for every existing campervan (100 campervans are in db).
 
-* Open http://localhost or http://campervan.local to verify dashboard
+* Open http://localhost to verify dashboard
+* Open http://localhost/api/demands to verify json response for REST API
 
-### Some words about the solution
+### About the solution
 
 * I prefixed all db tables as "cv" (shortcut to campervan) to prevent naming conflicts with reserved keywords.
-This also groups all application specific tables as one listing in adminer or other DB UI tool.
+This approach also groups all application specific tables in adminer or other DB UI tool for better visual understanding.
 
 * Without orders there are no demands nor surplus in system.
   My starting point was that demand arises when first order is placed
   as it was not said otherwise in initial task description.
 
-* "Demands" calculation is executed during orders generating command and cached to cv_station_equipment_demand table.
+* "Demands" calculation is executed during orders generating command and cached into cv_station_equipment_demand table.
 This makes it easier to serve data later. No "on the fly" complicated calculations are made.
 
 * I used bootstrap for UX.
 
-* Demands listing does not include days which does not contain any order start day nor end day in system.
+* Demands listing (timeline) excludes days where orders do not have any start or end.
 This way we can prevent data where "booked count"=0 and "available count"=0 which are redundant.
+
+* REST API endpoint uses same pagination and filtering params as UX solution. Note:
+  I did not use some heavy third-party REST API component as this was not the purpose of current task.
+  In real-life scenario where application contains tens or hundreds of API endpoints, third party component might be reasonable choice.

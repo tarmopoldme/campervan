@@ -7,7 +7,7 @@ namespace App\Interfaces;
 interface CampervanSearcher
 {
     /**
-     * Generic public search method definition
+     * Generic search method definition
      *
      * @param int $page
      * @param int $itemsPerPage

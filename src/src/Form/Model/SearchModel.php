@@ -2,6 +2,7 @@
 
 namespace App\Form\Model;
 
+use App\Entity\Station;
 use DateTime;
 
 /**
@@ -9,7 +10,7 @@ use DateTime;
  */
 class SearchModel
 {
-    public $stationId;
+    public ?Station $stationId;
 
     public ?DateTime $dateFrom;
 

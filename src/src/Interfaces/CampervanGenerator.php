@@ -7,7 +7,7 @@ namespace App\Interfaces;
 interface CampervanGenerator
 {
     /**
-     * All "generators" should implement public generate method
+     * All "generators" should implement generate method
      */
     public function generate(): void;
 }

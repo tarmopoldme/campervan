@@ -1,3 +1,8 @@
 index:
     path: /
     controller: App\Controller\IndexController::indexAction
+    methods: GET
+api:
+    path: /api/demands
+    controller: App\Controller\ApiController::demandsAction
+    methods: GET
