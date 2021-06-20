@@ -1,0 +1,4 @@
+parameters:
+  app.paginator.items_per_page: 10
+  # how many pages before or after active page are displayed in UI
+  app.paginator.page_range: 4

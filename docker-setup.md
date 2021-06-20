@@ -16,7 +16,7 @@
    ```
    Read more from https://docs.docker.com/compose/install/
      
-1. Create docker .env which defines all kinds of docker variables and versions (php, apache etc)
+1. Create docker .env from .env.dist 
     * Docker 
     ```shell script
     cp .docker/.env.dist .docker/.env

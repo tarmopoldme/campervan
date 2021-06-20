@@ -1,7 +1,7 @@
 <?php
 namespace App\Command;
 
-use App\Classes\OrderGenerator;
+use App\Classes\Order\Generator;
 use App\Entity\Campervan;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
@@ -11,9 +11,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class OrdersGeneratorCommand
+ * This command generates per campervan a random order
+ * Before each run truncates order related and "station equipment demand" db tables
  */
-class OrdersGeneratorCommand extends Command
+class OrdersGenerateCommand extends Command
 {
     private EntityManagerInterface $em;
     private Connection $con;
@@ -28,7 +29,7 @@ class OrdersGeneratorCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('campervan:orders-generator')
+            ->setName('campervan:orders-generate')
             ->setDescription('Generates random orders for all campervans for testing purposes')
             ->addUsage('-vvv (for full exception stacks)');
     }
@@ -46,7 +47,7 @@ class OrdersGeneratorCommand extends Command
         /** @var Campervan $campervan */
         foreach ($campervans as $campervan) {
             $output->writeln(sprintf('Generating order for campervan %d', $campervan->getId()));
-            (new OrderGenerator($campervan, $this->em))->generate();
+            (new Generator($campervan, $this->em))->generate();
         }
 
         $output->writeln('Finished orders generating');

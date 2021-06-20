@@ -1,16 +1,20 @@
 <?php
-namespace App\Classes;
+namespace App\Classes\Order;
 
 use App\Entity\Equipment;
 use App\Entity\Order;
 use App\Entity\OrderEquipment;
+use App\Interfaces\CampervanGenerator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class OrderEquipmentGenerator
+ * This object is responsible for generating random equipment for given order
+ * Random means that random number of equipment of all possible equipments are taken for order
+ *
+ * Amount of equipment is also randomized between values 1 - 10
  */
-class OrderEquipmentGenerator
+class EquipmentGenerator implements CampervanGenerator
 {
     private Order $order;
 

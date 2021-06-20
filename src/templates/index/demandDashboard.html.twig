@@ -8,20 +8,33 @@
     </div>
     <div class="container-lg">
         {{ form_start(form, {'method': 'GET', 'action': url('index'), 'attr': {'id': 'search-form'}}) }}
-            <div class="mb-3">{{ form_label(form.stationId) }} {{ form_widget(form.stationId) }}</div>
-            <div class="mb-3">{{ form_label(form.dateFrom) }} {{ form_widget(form.dateFrom) }}</div>
-            <div class="mb-3">{{ form_label(form.dateUntil) }} {{ form_widget(form.dateUntil) }}</div>
-            <div class="mb-3">{{ form_widget(form.save) }} <a href="{{ url('index') }}" class="btn">Reset</a></div>
+            <div class="mb-3">
+                {{ form_label(form.stationId) }}
+                {{ form_widget(form.stationId) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.dateFrom) }}
+                {{ form_widget(form.dateFrom) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.dateUntil) }}
+                {{ form_widget(form.dateUntil) }}
+            </div>
+            <div class="mb-3">
+                {{ form_widget(form.filterSubmit) }}
+                <a href="{{ url('index') }}" class="btn btn-light">Reset</a>
+            </div>
         {{ form_end(form) }}
     </div>
     <div class="container-lg">
         {% if demands is empty %}
-            <div class="alert alert-primary">No results found for given station and period</div>
+            <div class="alert alert-primary">No results found for given filtering criteria</div>
         {% else %}
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">Date</th>
+                    <th scope="col">Station</th>
                     <th scope="col">Equipment</th>
                     <th scope="col">Booked count</th>
                     <th scope="col">Available count</th>
@@ -31,6 +44,7 @@
                 {% for demand in demands %}
                     <tr>
                         <td>{{ demand.getDate().format('Y-m-d') }}</td>
+                        <td>{{ demand.getStation().getName() }}</td>
                         <td>{{ demand.getEquipment().getName() }}</td>
                         <td>{{ demand.getBookedCount() }}</td>
                         <td>{{ demand.getAvailableCount() }}</td>
@@ -38,6 +52,12 @@
                 {% endfor %}
                 </tbody>
             </table>
+            {% if paginator is not empty and paginator.haveToPaginate() %}
+                {{ render(controller('App\\Controller\\PaginatorController:indexAction', {
+                    'paginator': paginator,
+                    'filter': filter
+                })) }}
+            {% endif %}
         {% endif %}
     </div>
 {% endblock %}

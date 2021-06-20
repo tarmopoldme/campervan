@@ -1,5 +1,5 @@
 <?php
-namespace App\Classes;
+namespace App\Classes\Station\Equipment;
 
 use App\Entity\Order;
 use App\Entity\OrderEquipment;
@@ -8,9 +8,14 @@ use App\Repository\StationEquipmentDemandRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class EquipmentDemandDetector
+ * This object is responsible for detecting equipment demand and surplus
+ * when given order is placed
+ *
+ * Demand and surplus is cached to cv_station_equipment_demand table
+ * per order related station (start and end station), equipment and date when order starts and ends
+ *
  */
-class EquipmentDemandDetector
+class DemandDetector
 {
     private Order $order;
 
@@ -57,7 +62,7 @@ class EquipmentDemandDetector
                 ->findOneByOrCreate([
                     'station' => $this->order->getEndStation()->getId(),
                     'equipment' => $equipment->getEquipment()->getId(),
-                    'date' => $this->order->getStartDate()
+                    'date' => $this->order->getEndDate()
                 ])
             ;
             $this->saveDemand($demand, $equipment->getBookedCount(), false);

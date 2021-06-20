@@ -7,11 +7,7 @@ use Doctrine\ORM\EntityRepository;
 class StationRepository extends EntityRepository
 {
 
-    /**
-     * @param int $limit
-     * @return int|mixed|string
-     */
-    public function getRandomStations(int $limit = 2)
+    public function getRandomStations(int $limit = 2): array
     {
         return $this
             ->createQueryBuilder('s')

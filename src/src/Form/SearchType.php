@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Class SearchType
+ * Demand dashborad filter form configuration
  */
 class SearchType extends AbstractType
 {
@@ -24,7 +24,9 @@ class SearchType extends AbstractType
         $builder
             ->add('stationId', EntityType::class, [
                     'class' => Station::class,
-                    'choice_label' => 'name'
+                    'choice_label' => 'name',
+                    'placeholder' => 'Please choose a station',
+                    'empty_data' => null,
                 ]
             )
             ->add('dateFrom', DateType::class, [
@@ -39,8 +41,8 @@ class SearchType extends AbstractType
                 'html5' => false,
                 'attr' => ['class' => 'js-datepicker']
             ])
-            ->add('save', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-info'],
+            ->add('filterSubmit', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary', 'formnovalidate' => 'formnovalidate'],
                 'label' => 'Filter'
             ]);
         ;

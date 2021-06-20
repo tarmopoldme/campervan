@@ -21,37 +21,4 @@ class StationEquipmentDemandRepository extends EntityRepository
         }
         return $demand;
     }
-
-    public function findByFilterAndJoinEquipment(array $filter = null): array
-    {
-        $queryBuilder = $this
-            ->createQueryBuilder('ed')
-            ->innerJoin('ed.equipment', 'e')
-            ->orderBy('ed.date', 'ASC')
-        ;
-        if (!empty($filter['stationId'])) {
-            $queryBuilder
-                ->where('ed.station=:stationId')
-                ->setParameter('stationId', $filter['stationId'])
-            ;
-        }
-
-        if (!empty($filter['dateFrom'])) {
-            $queryBuilder
-                ->andWhere('ed.date >= :dateFrom')
-                ->setParameter('dateFrom', $filter['dateFrom'])
-            ;
-        }
-
-        if (!empty($filter['dateUntil'])) {
-            $queryBuilder
-                ->andWhere('ed.date <= :dateUntil')
-                ->setParameter('dateUntil', $filter['dateUntil'])
-            ;
-        }
-
-        return $queryBuilder->getQuery()->execute();
-
-    }
-
 }

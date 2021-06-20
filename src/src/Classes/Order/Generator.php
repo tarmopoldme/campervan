@@ -1,13 +1,22 @@
 <?php
-namespace App\Classes;
+namespace App\Classes\Order;
 
+use App\Classes\Station\Equipment\DemandDetector;
 use App\Entity\Campervan;
 use App\Entity\Order;
 use App\Entity\Station;
+use App\Interfaces\CampervanGenerator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
-class OrderGenerator
+/**
+ * This random order generator generates order for given campervan
+ * Start and end station are randomly picked between all existing stations from database
+ * Order start is random date between now + 30 days
+ * Order end is random date between order start + 7 days
+ *
+ */
+class Generator implements CampervanGenerator
 {
     private Campervan $campervan;
 
@@ -36,12 +45,12 @@ class OrderGenerator
             ->setEndDate($dates['end_date'])
         ;
 
-        (new OrderEquipmentGenerator($order, $this->em))->generate();
+        (new EquipmentGenerator($order, $this->em))->generate();
 
         $this->em->persist($order);
         $this->em->flush();
 
-        (new EquipmentDemandDetector($order, $this->em))->detect();
+        (new DemandDetector($order, $this->em))->detect();
     }
 
     private function getRandomStartAndEndDate(): array

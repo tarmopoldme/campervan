@@ -5,7 +5,7 @@ namespace App\Form\Model;
 use DateTime;
 
 /**
- * Model representing search filter form
+ * Model representing search filter form fields
  */
 class SearchModel
 {
