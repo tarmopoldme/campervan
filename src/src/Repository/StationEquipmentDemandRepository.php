@@ -7,6 +7,9 @@ use App\Entity\Station;
 use App\Entity\StationEquipmentDemand;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Repository for StationEquipmentDemand Entity
+ */
 class StationEquipmentDemandRepository extends EntityRepository
 {
 

@@ -3,7 +3,7 @@
         {% if paginator.getFirstPage() < pageRangeMin %}
             <li class="page-item">
                 <a class="page-link"
-                    href="{{ url('index', {filter: filter, page: paginator.getFirstPage()})}}">{{ paginator.getFirstPage() }}</a>
+                    href="{{ url(routing, {filter: filter, page: paginator.getFirstPage()})}}">{{ paginator.getFirstPage() }}</a>
             </li>
             {% if pageRangeMin-1 != paginator.getFirstPage() %}
                 <li>&nbsp;{{ separator }}&nbsp;</li>
@@ -13,7 +13,7 @@
         {% for number in (pageRangeMin..pageRangeMax)|filter(n => n >= paginator.firstPage() and n <= paginator.lastPage()) %}
             <li class="page-item {% if number == paginator.getPage()  %}active{% endif %}">
                 <a class="page-link"
-                   href="{{ url('index', {filter: filter, page: number}) }}">
+                   href="{{ url(routing, {filter: filter, page: number}) }}">
                     {% if number == paginator.getPage()  %}
                         <strong class="current-page">{{ paginator.getPage() }}</strong>
                     {% else %}
@@ -28,7 +28,7 @@
             {% endif %}
             <li class="page-item">
                 <a class="page-link"
-                   href="{{ url('index', {filter: filter, page: paginator.getLastPage()})}}">{{ paginator.getLastPage() }}</a>
+                   href="{{ url(routing, {filter: filter, page: paginator.getLastPage()})}}">{{ paginator.getLastPage() }}</a>
             </li>
         {% endif %}
     </ul>

@@ -4,6 +4,9 @@ namespace App\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Repository for Equipment Entity
+ */
 class EquipmentRepository extends EntityRepository
 {
 

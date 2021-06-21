@@ -55,7 +55,8 @@
             {% if paginator is not empty and paginator.haveToPaginate() %}
                 {{ render(controller('App\\Controller\\PaginatorController:indexAction', {
                     'paginator': paginator,
-                    'filter': filter
+                    'routing': 'index',
+                    'filter': filter,
                 })) }}
             {% endif %}
         {% endif %}

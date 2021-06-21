@@ -18,7 +18,7 @@
 php bin/console campervan:orders-generate -vvv
 ```
 
-* Orders generator will place one order for every existing campervan (100 campervans are in db).
+* Orders generator will place 4 orders for every existing campervan (200 campervans are in test db).
 
 * Open http://localhost to verify dashboard
 * Open http://localhost/api/demands to verify json response for REST API
@@ -32,12 +32,12 @@ This approach also groups all application specific tables in adminer or other DB
   My starting point was that demand arises when first order is placed
   as it was not said otherwise in initial task description.
 
-* "Demands" calculation is executed during orders generating command and cached into cv_station_equipment_demand table.
-This makes it easier to serve data later. No "on the fly" complicated calculations are made.
+* "Demands" calculation (DemandDetector object) is executed during orders generating command and cached into cv_station_equipment_demand table.
+This makes it easier to serve data later. No "on the fly" complicated calculations are made. 
 
 * I used bootstrap for UX.
 
-* Demands listing (timeline) excludes days where orders do not have any start or end.
+* Demands listing (timeline) excludes days where no order is having start nor end.
 This way we can prevent data where "booked count"=0 and "available count"=0 which are redundant.
 
 * REST API endpoint uses same pagination and filtering params as UX solution. Note:

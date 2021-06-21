@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * CvOrder
  *
  * @ORM\Table(name="cv_order", indexes={@ORM\Index(name="start_station_id", columns={"start_station_id"}), @ORM\Index(name="end_station_id", columns={"end_station_id"}), @ORM\Index(name="campervan_id", columns={"campervan_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
  */
 class Order
 {

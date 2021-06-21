@@ -5,7 +5,7 @@ use App\Utils\SimplePaginator;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * Trait which could be used for pagination support
+ * Trait which could be used for pagination support in data queries
  */
 trait Paginator
 {
@@ -13,6 +13,8 @@ trait Paginator
 
     protected function applyPagination(QueryBuilder $query, int $page, int $itemsPerPage): SimplePaginator
     {
+        $page = $page ?: 1; // default to 1 if 0 is passed somehow
+
         $paginator = (new SimplePaginator($query, $page, $itemsPerPage))->init();
         $this->paginator = $paginator;
         return $paginator;

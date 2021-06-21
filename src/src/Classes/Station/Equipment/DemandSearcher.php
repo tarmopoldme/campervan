@@ -31,16 +31,15 @@ class DemandSearcher implements CampervanSearcher
             ->orderBy('ed.date', 'ASC')
         ;
 
-        $this->applyFilter($filter);
-
         return $this
+            ->applyFilter($filter)
             ->applyPagination($this->query, $page, $itemsPerPage)
             ->getQuery()
             ->getResult()
         ;
     }
 
-    private function applyFilter(array $filter = null): void
+    private function applyFilter(array $filter = null): self
     {
         if (!isset($filter)) {
             $filter['dateFrom'] = (new DateTime())->format('Y-m-d');
@@ -64,5 +63,6 @@ class DemandSearcher implements CampervanSearcher
                 ->andWhere('ed.date <= :dateUntil')
                 ->setParameter('dateUntil', $filter['dateUntil']);
         }
+        return $this;
     }
 }

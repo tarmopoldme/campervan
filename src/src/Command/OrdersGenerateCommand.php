@@ -11,8 +11,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * This command generates per campervan a random order
- * Before each run truncates order related and "station equipment demand" db tables
+ * This command generates per campervan 4 random orders
+ * Order and "station equipment demand" related db tables are truncated before each run
  */
 class OrdersGenerateCommand extends Command
 {
@@ -46,7 +46,10 @@ class OrdersGenerateCommand extends Command
 
         /** @var Campervan $campervan */
         foreach ($campervans as $campervan) {
-            $output->writeln(sprintf('Generating order for campervan %d', $campervan->getId()));
+            $output->writeln(sprintf('Generating 4 new orders for campervan %d', $campervan->getId()));
+            (new Generator($campervan, $this->em))->generate();
+            (new Generator($campervan, $this->em))->generate();
+            (new Generator($campervan, $this->em))->generate();
             (new Generator($campervan, $this->em))->generate();
         }
 

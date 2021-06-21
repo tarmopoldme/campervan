@@ -11,9 +11,13 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * This random order generator generates order for given campervan
- * Start and end station are randomly picked between all existing stations from database
- * Order start is random date between now + 30 days
- * Order end is random date between order start + 7 days
+ *
+ * If no previous order exists start/end stations are randomly picked from database
+ * Order start is random date between now + 15 days
+ * Order end is random date between order start + 5 days
+ *
+ * If previous order exists then new order starting station is previous order end station
+ * And new order start date is next day after previous order end
  *
  */
 class Generator implements CampervanGenerator
@@ -30,19 +34,33 @@ class Generator implements CampervanGenerator
 
     public function generate(): void
     {
-        $dates = $this->getRandomStartAndEndDate();
-        $stations = $this->em
-            ->getRepository(Station::class)
-            ->getRandomStations(2)
+        /** @var Order $previousOrder */
+        $previousOrder = $this->em
+            ->getRepository(Order::class)
+            ->getCampervanPreviousOrder($this->campervan->getId())
         ;
+        if ($previousOrder) {
+            $startStation = $previousOrder->getEndStation();
+            [$endStation] = $this->em
+                ->getRepository(Station::class)
+                ->getRandomStations(1, [$startStation->getId()])
+            ;
+            [$startDate, $endDate] = $this->getRandomStartAndEndDate($previousOrder->getEndDate());
+        } else {
+            [$startDate, $endDate] = $this->getRandomStartAndEndDate();
+            [$startStation, $endStation] = $this->em
+                ->getRepository(Station::class)
+                ->getRandomStations(2)
+            ;
+        }
 
         $order = new Order();
         $order
             ->setCampervan($this->campervan)
-            ->setStartStation($stations[0])
-            ->setEndStation($stations[1])
-            ->setStartDate($dates['start_date'])
-            ->setEndDate($dates['end_date'])
+            ->setStartStation($startStation)
+            ->setEndStation($endStation)
+            ->setStartDate($startDate)
+            ->setEndDate($endDate)
         ;
 
         (new EquipmentGenerator($order, $this->em))->generate();
@@ -53,17 +71,18 @@ class Generator implements CampervanGenerator
         (new DemandDetector($order, $this->em))->detect();
     }
 
-    private function getRandomStartAndEndDate(): array
+    private function getRandomStartAndEndDate(DateTime $previousOrderEndDate = null): array
     {
-        $randomStart = random_int(1, 30);
-        $randomEnd = random_int(1, 7);
+        if ($previousOrderEndDate) {
+            $startDate = $previousOrderEndDate->modify('+1 day');
+        } else {
+            $randomStart = random_int(1, 15);
+            $startDate = (new DateTime())->modify("+$randomStart day");
+        }
 
-        $startDate = (new DateTime())->modify("+$randomStart day");
+        $randomEnd = random_int(1, 5);
         $endDate = (clone $startDate)->modify("+$randomEnd day");
 
-        return [
-            'start_date' => $startDate,
-            'end_date' => $endDate
-        ];
+        return [$startDate, $endDate];
     }
 }

@@ -6,12 +6,12 @@
    curl -fsSL https://get.docker.com -o get-docker.sh
    sh get-docker.sh
    ```
-   * Windows - You are on your own (Try docker WSL 2 backend)
+   * Windows - You are on your own :) (Try docker WSL 2 backend)
 
 1. Get docker compose if not installed
    * Linux:
    ```
-   sudo curl -L "https://github.com/docker/compose/releases/download/1.26.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+   sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
    sudo chmod +x /usr/local/bin/docker-compose
    ```
    Read more from https://docs.docker.com/compose/install/
@@ -38,7 +38,7 @@
 ### Environments
 When docker is running you have access to the following environments
 * UI http://localhost or http://campervan.local
-* Adminer http://localhost:8080/?server=campervan_mariadb&username=admin
+* Adminer http://localhost:8089/?server=campervan_mariadb&username=admin
 
 ### Running console commands
 

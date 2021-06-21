@@ -11,25 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PaginatorController extends AbstractController
 {
-    /**
-     * @param SimplePaginator $paginator
-     * @param mixed $filter filtering params for pager links if needed
-     *
-     * @return Response
-     */
-    public function indexAction(SimplePaginator $paginator, array $filter = null): Response
+    public function indexAction(SimplePaginator $paginator, string $routing = 'index', array $filter = null): Response
     {
         $pageRange = $this->getParameter('app.paginator.page_range');
-        $pageRangeMin = $paginator->getPage() - $pageRange;
-        $pageRangeMax = $paginator->getPage() + $pageRange;
-        $separator = ' ... ';
 
         return $this->render('paginator/index.html.twig', [
             'paginator' => $paginator,
+            'routing' => $routing,
             'filter' => $filter,
-            'separator' => $separator,
-            'pageRangeMax' => $pageRangeMax,
-            'pageRangeMin' => $pageRangeMin,
+            'separator' => ' ... ',
+            'pageRangeMin' => $paginator->getPage() - $pageRange,
+            'pageRangeMax' => $paginator->getPage() + $pageRange
         ]);
     }
 }
