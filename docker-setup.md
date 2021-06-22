@@ -20,9 +20,9 @@
     cp .docker/.env.dist .docker/.env
     ```
 1. Configure your hosts file to redirect app domain (optional)
-       ```bash
-      sudo -- sh -c "echo '127.0.0.1 campervan.local' >> /etc/hosts"
-       ```
+    ```bash
+    sudo -- sh -c "echo '127.0.0.1 campervan.local' >> /etc/hosts"
+    ```
 1. Download and run images 
     ```
     # This will download all missing containers and run them (including mariadb)
@@ -42,13 +42,13 @@ When docker is running you have access to the following environments
 NB! Containers are mostly running alpine linux so no bash, only sh
 ```shell script
 # php container
-docker exec -it campervan_php sh
+sudo docker exec -it campervan_php sh
 
 # apache container
-docker exec -it campervan_apache sh
+sudo docker exec -it campervan_apache sh
 
 # mariadb container
-docker exec -it campervan_mariadb sh
+sudo docker exec -it campervan_mariadb sh
 ```
 ### Useful docker commands
 ```
