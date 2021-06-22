@@ -7,6 +7,7 @@ use App\Entity\OrderEquipment;
 use App\Interfaces\CampervanGenerator;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 /**
  * This object is responsible for generating random equipment for given order
@@ -26,6 +27,9 @@ class EquipmentGenerator implements CampervanGenerator
         $this->em = $em;
     }
 
+    /**
+     * @throws Exception
+     */
     public function generate(): void
     {
         $equipments = $this->em

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Order;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * Repository for Order Entity
@@ -11,6 +12,9 @@ use Doctrine\ORM\EntityRepository;
 class OrderRepository extends EntityRepository
 {
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function getCampervanPreviousOrder(int $campervanId): ?Order
     {
         return $this

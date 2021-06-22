@@ -1,15 +1,13 @@
-# Docker setup
+# Docker setup for linux
 
 1. Get docker if not installed already
-    * Linux (make sure you don't have previous install of docker first)
+    * Note: make sure you don't have previous install of docker first
     ```
    curl -fsSL https://get.docker.com -o get-docker.sh
    sh get-docker.sh
    ```
-   * Windows - You are on your own :) (Try docker WSL 2 backend)
 
 1. Get docker compose if not installed
-   * Linux:
    ```
    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
    sudo chmod +x /usr/local/bin/docker-compose
@@ -17,16 +15,13 @@
    Read more from https://docs.docker.com/compose/install/
      
 1. Create docker .env from .env.dist 
-    * Docker 
+    * From project root dir execute
     ```shell script
     cp .docker/.env.dist .docker/.env
     ```
 1. Configure your hosts file to redirect app domain (optional)
-    * Host file location in windows `system32\drivers\etc\hosts`
-    * Linux shortcut
        ```bash
       sudo -- sh -c "echo '127.0.0.1 campervan.local' >> /etc/hosts"
-      
        ```
 1. Download and run images 
     ```
@@ -39,6 +34,7 @@
 When docker is running you have access to the following environments
 * UI http://localhost or http://campervan.local
 * Adminer http://localhost:8089/?server=campervan_mariadb&username=admin
+    * DB user and password are in .docker/.env file
 
 ### Running console commands
 

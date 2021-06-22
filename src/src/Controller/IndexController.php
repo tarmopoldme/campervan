@@ -19,13 +19,9 @@ class IndexController extends AbstractController
 
     public function indexAction(Request $request): Response
     {
-        $filterForm = $this->createForm(
-            SearchType::class,
-            new SearchModel(),
-            ['method' => 'GET']
-        );
-
+        $filterForm = $this->createForm(SearchType::class, null, ['method' => 'GET']);
         $filterForm->handleRequest($request);
+
         $filter = $request->get('filter');
         $page = $request->get('page') ?? 1;
 

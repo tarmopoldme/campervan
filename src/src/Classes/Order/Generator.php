@@ -8,6 +8,7 @@ use App\Entity\Station;
 use App\Interfaces\CampervanGenerator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 /**
  * This random order generator generates order for given campervan
@@ -71,6 +72,9 @@ class Generator implements CampervanGenerator
         (new DemandDetector($order, $this->em))->detect();
     }
 
+    /**
+     * @throws Exception
+     */
     private function getRandomStartAndEndDate(DateTime $previousOrderEndDate = null): array
     {
         if ($previousOrderEndDate) {

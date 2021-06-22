@@ -44,7 +44,7 @@ class SearchType extends AbstractType
             ->add('filterSubmit', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary', 'formnovalidate' => 'formnovalidate'],
                 'label' => 'Filter'
-            ]);
+            ])
         ;
     }
 
